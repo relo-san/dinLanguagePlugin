@@ -1,0 +1,151 @@
+
+# This file is part of the dinLanguagePlugin package.
+# (c) DineCat, 2010 http://dinecat.com/
+#
+# For the full copyright and license information, please view the LICENSE file,
+# that was distributed with this package, or see http://www.dinecat.com/din/license.html
+
+# Plugin schema file for Doctrine
+#
+# @package     dinLanguagePlugin
+# @subpackage  config.doctrine
+# @author      Nicolay N. Zyk <relo.san@gmail.com>
+
+#DinLanguage
+DinLanguage:
+
+    actAs:
+        I18n:
+            fields:         ['title']
+
+    columns:
+        culture:            { type: 'string(2)', fixed: true, primary: true }
+        is_public:          { type: 'boolean', notnull: true, default: false }
+        title:              { type: 'string(150)', fixed: true }
+
+    indexes:
+        public:             { fields: ['is_public'] }
+
+
+#DinLanguageGroup
+DinLanguageGroup:
+
+    actAs:
+        I18n:
+            fields:         ['title', 'description']
+
+    columns:
+        id:                 { type: 'integer(4)', primary: true, autoincrement: true }
+        is_enabled:         { type: 'boolean', notnull: true, default: true }
+        title:              { type: 'string(150)', fixed: true }
+        description:        { type: 'clob(65532)' }
+        sequence:           { type: 'integer(4)' }
+
+    indexes:
+        enabled:            { fields: ['is_enabled'] }
+
+    relations:
+        DinLanguages:
+            class:          'DinLanguage'
+            refClass:       'DinLanguageBindGroup'
+            local:          'group_id'
+            foreign:        'language_id'
+            alias:          'Languages'
+            foreignAlias:   'Groups'
+
+
+#DinLanguageBindGroup
+DinLanguageBindGroup:
+
+    columns:
+        group_id:           { type: 'integer(4)', primary: true }
+        language_id:        { type: 'string(2)', fixed: true, primary: true }
+        sequence:           { type: 'integer(2)' }
+
+    relations:
+        DinLanguageGroup:
+            local:          'group_id'
+            foreign:        'id'
+            alias:          'Group'
+            foreignAlias:   'LanguageBindGroup'
+            onDelete:       'CASCADE'
+        DinLanguage:
+            local:          'language_id'
+            foreign:        'culture'
+            alias:          'Language'
+            foreignAlias:   'LanguageBindGroup'
+            onDelete:       'CASCADE'
+
+
+#DinLanguageBindApplication
+DinLanguageBindApplication:
+
+    columns:
+        application:        { type: 'string(50)', fixed: true, primary: true }
+        language_id:        { type: 'string(2)', fixed: true, primary: true }
+        is_enabled:         { type: 'boolean', notnull: true, default: false }
+        is_editable:        { type: 'boolean', notnull: true, default: false }
+        sequence:           { type: 'integer(2)' }
+
+    indexes:
+        enabled:            { fields: ['is_enabled'] }
+        editable:           { fields: ['is_editable'] }
+
+    relations:
+        DinLanguage:
+            local:          'language_id'
+            foreign:        'culture'
+            type:           'one'
+            foreignType:    'many'
+            alias:          'Language'
+            foreignAlias:   'Applications'
+            onDelete:       'CASCADE'
+
+
+#DinLanguageDictionary
+DinLanguageDictionary:
+
+    actAs:
+        I18n:
+            fields:         ['title', 'description']
+
+    columns:
+        id:                 { type: 'integer(4)', primary: true, autoincrement: true }
+        application:        { type: 'string(50)', fixed: true, notnull: true }
+        name:               { type: 'string(50)', fixed: true, notnull: true }
+        title:              { type: 'string(150)', fixed: true }
+        description:        { type: 'clob(65532)' }
+
+    indexes:
+        uri:                { fields: ['application', 'name'], type: 'unique' }
+
+
+#DinLanguageDictionaryPair
+DinLanguageDictionaryPair:
+
+    actAs:
+        I18n:
+            fields:         ['is_public', 'value']
+
+    columns:
+        id:                 { type: 'integer(4)', primary: true, autoincrement: true }
+        dictionary_id:      { type: 'integer(4)', notnull: true }
+        is_public:          { type: 'boolean', notnull: true, default: false }
+        source:             { type: 'string(250)', fixed: true, notnull: true }
+        description:        { type: 'clob(65532)' }
+        value:              { type: 'clob' }
+
+    indexes:
+        public:             { fields: ['is_public'] }
+
+    relations:
+        DinLanguageDictionary:
+            local:          'dictionary_id'
+            foreign:        'id'
+            type:           'one'
+            foreignType:    'many'
+            alias:          'Dictionary'
+            foreignAlias:   'Pairs'
+            onDelete:       'CASCADE'
+
+#EOF
