@@ -18,6 +18,16 @@ models:
     DinLanguageBindGroup:
         disable:                true
 
+forms:
+    DinLanguageDictionaryPair:
+        fields:
+            dictionary_id:
+                widget:
+                    class:          'sfWidgetFormInputHidden'
+                    options:
+                        model:      null
+                        add_empty:  null
+                        label:      null
 
 filters:
 

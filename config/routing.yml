@@ -1,0 +1,61 @@
+
+# This file is part of the dinLanguagePlugin package.
+# (c) DineCat, 2010 http://dinecat.com/
+#
+# For the full copyright and license information, please view the LICENSE file,
+# that was distributed with this package, or see http://www.dinecat.com/din/license.html
+
+# dinLanguagePlugin routing configuration
+#
+# @package     dinLanguagePlugin
+# @subpackage  config
+# @author      Nicolay N. Zyk <relo.san@gmail.com>
+
+din_lang_group_admin:
+    class:                      'sfDoctrineRouteCollection'
+    options:
+        model:                  'DinLanguageGroup'
+        module:                 'dinLangGroupAdmin'
+        prefix_path:            '/adm/language/group'
+        column:                 'id'
+        with_wildcard_routes:   true
+
+din_lang_admin:
+    class:                      'sfDoctrineRouteCollection'
+    options:
+        model:                  'DinLanguage'
+        module:                 'dinLangAdmin'
+        prefix_path:            '/adm/language'
+        column:                 'culture'
+        with_wildcard_routes:   true
+    requirements:
+        culture:                '^\w{0,3}'
+
+din_lang_application_admin:
+    class:                      'sfDoctrineRouteCollection'
+    options:
+        model:                  'DinLanguageBindApplication'
+        module:                 'dinLangApplicationAdmin'
+        prefix_path:            '/adm/app/language'
+        column:                 'application'
+        with_wildcard_routes:   true
+
+din_lang_dictionary_pair_admin:
+    class:                      'sfDoctrineRouteCollection'
+    options:
+        model:                  'DinLanguageDictionaryPair'
+        module:                 'dinLangDictionaryPairAdmin'
+        prefix_path:            '/adm/dictionary/:dictionary_id/pairs'
+        column:                 'id'
+        with_wildcard_routes:   true
+
+din_lang_dictionary_admin:
+    class:                      'sfDoctrineRouteCollection'
+    options:
+        model:                  'DinLanguageDictionary'
+        module:                 'dinLangDictionaryAdmin'
+        prefix_path:            '/adm/dictionary'
+        column:                 'id'
+        with_wildcard_routes:   true
+
+#EOF

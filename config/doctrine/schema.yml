@@ -19,9 +19,9 @@ DinLanguage:
             fields:         ['title']
 
     columns:
-        culture:            { type: 'string(2)', fixed: true, primary: true }
+        culture:            { type: 'string(2)', primary: true }
         is_public:          { type: 'boolean', notnull: true, default: false }
-        title:              { type: 'string(150)', fixed: true }
+        title:              { type: 'string(150)' }
 
     indexes:
         public:             { fields: ['is_public'] }
@@ -37,7 +37,7 @@ DinLanguageGroup:
     columns:
         id:                 { type: 'integer(4)', primary: true, autoincrement: true }
         is_enabled:         { type: 'boolean', notnull: true, default: true }
-        title:              { type: 'string(150)', fixed: true }
+        title:              { type: 'string(150)' }
         description:        { type: 'clob(65532)' }
         sequence:           { type: 'integer(4)' }
 
@@ -59,7 +59,7 @@ DinLanguageBindGroup:
 
     columns:
         group_id:           { type: 'integer(4)', primary: true }
-        language_id:        { type: 'string(2)', fixed: true, primary: true }
+        language_id:        { type: 'string(2)', primary: true }
         sequence:           { type: 'integer(2)' }
 
     relations:
@@ -81,8 +81,8 @@ DinLanguageBindGroup:
 DinLanguageBindApplication:
 
     columns:
-        application:        { type: 'string(50)', fixed: true, primary: true }
-        language_id:        { type: 'string(2)', fixed: true, primary: true }
+        application:        { type: 'string(50)', primary: true }
+        language_id:        { type: 'string(2)', primary: true }
         is_enabled:         { type: 'boolean', notnull: true, default: false }
         is_editable:        { type: 'boolean', notnull: true, default: false }
         sequence:           { type: 'integer(2)' }
@@ -111,9 +111,9 @@ DinLanguageDictionary:
 
     columns:
         id:                 { type: 'integer(4)', primary: true, autoincrement: true }
-        application:        { type: 'string(50)', fixed: true, notnull: true }
-        name:               { type: 'string(50)', fixed: true, notnull: true }
-        title:              { type: 'string(150)', fixed: true }
+        application:        { type: 'string(50)', notnull: true }
+        name:               { type: 'string(50)', notnull: true }
+        title:              { type: 'string(150)' }
         description:        { type: 'clob(65532)' }
 
     indexes:
@@ -131,7 +131,7 @@ DinLanguageDictionaryPair:
         id:                 { type: 'integer(4)', primary: true, autoincrement: true }
         dictionary_id:      { type: 'integer(4)', notnull: true }
         is_public:          { type: 'boolean', notnull: true, default: false }
-        source:             { type: 'string(250)', fixed: true, notnull: true }
+        source:             { type: 'string(250)', notnull: true }
         description:        { type: 'clob(65532)' }
         value:              { type: 'clob' }
 

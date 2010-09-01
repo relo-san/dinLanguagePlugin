@@ -1,0 +1,85 @@
+
+# This file is part of the dinLanguagePlugin package.
+# (c) DineCat, 2010 http://dinecat.com/
+#
+# For the full copyright and license information, please view the LICENSE file,
+# that was distributed with this package, or see http://www.dinecat.com/din/license.html
+
+# dinLangDictionaryPairAdmin module generator configuration
+#
+# @package     dinLanguagePlugin
+# @subpackage  modules.dinLangDictionaryPairAdmin.config
+# @author      Nicolay N. Zyk <relo.san@gmail.com>
+
+plugin:                             'dinLanguagePlugin'
+
+generator:
+
+    param:
+
+        model_class:                'DinLanguageDictionaryPair'
+        singular:                   null
+        plural:                     null
+        route_prefix:               'din_lang_dictionary_pair_admin'
+        with_doctrine_route:        true
+        i18n_catalogue:             'dinLangDictionaryPairAdmin'
+
+        config:
+
+            parent:
+                dictionary:
+                    identifier:     'dictionary_id'
+                    route:          'din_lang_dictionary_admin'
+                    label:          'labels.dictionary'
+
+            actions:                null
+
+            fields:
+                is_public:          { type: 'Boolean', label: 'fieldLabels.isPublic' }
+                source:             { label: 'fieldLabels.source' }
+                value:              { label: 'fieldLabels.value' }
+                description:        { label: 'fieldLabels.description' }
+
+            list:
+                title:              'titles.list.%@dictionary@%'
+                display:            ['source', 'is_public', 'description']
+                table_method:       'retrieveWithI18n'
+                pager_class:        'dinDoctrinePager'
+                actions:
+                    _new:
+                        params:     { ajax: 'action' }
+                object_actions:
+                    _edit:
+                        params:     { ajax: 'action' }
+                    _delete:
+                        params:     { ajax: 'post' }
+                sort:
+                    source:         { columns: ['source'] }
+
+            filter:
+                display:            ['source', 'is_public', 'value', 'description']
+
+            form:
+                display:
+                    fieldsets.base: ['dictionary_id', 'source', 'is_public', 'value', 'description']
+
+            edit:
+                title:              'titles.edit.%%source%%'
+                actions:
+                    _delete:
+                        params:     { ajax: 'action' }
+                    _save:          null
+                    _list:
+                        params:     { ajax: 'action' }
+
+            new:
+                title:              'titles.new'
+                actions:
+                    _save_and_add:  null
+                    _save:          null
+                    _list:
+                        params:     { ajax: 'action' }
+
+            show:                   null
+
+#EOF
